@@ -1,0 +1,13 @@
+*.iml
+.idea/
+
+glide-launcher/bootstrap.properties
+glide-launcher/glide-home-dist/conf/overrides.d/05-jude.*.properties
+glide/properties/users.prod/maint.xml
+glide/sys.scripts/zboot_workspace.js
+glide/sys.scripts/bootstrap_workspace.js
+
+blerg*
+jude
+aaa.jude*
+aaa_jude*
