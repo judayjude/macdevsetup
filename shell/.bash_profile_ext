@@ -1,0 +1,15 @@
+# Source all aliases from pluggable alias directory
+for ALI in ~/alias/.alias_* ; do
+	[ -e $ALI ] || continue
+	source $ALI
+done
+
+# Source all environment setttings from pluggable env directory
+for ENVI in ~/env/.env_* ; do
+        [ -e $ENVI ] || continue
+        source $ENVI
+done
+
+# Terminal prompt
+source ~/.ps1
+
