@@ -1,44 +1,57 @@
 #!/bin/bash
 
+SOURCEDIR=$(dirname $0)
+FORCE=0
+
+if [[ "$1" == "-f" ]] ; then
+	FORCE=1
+fi
+
 # Bash Profile must already exist, abort otherwise
-if [ ! -e ~/.bash_profile ] ; then
+if [ -e ~/.bash_profile ] || [ "$FORCE" == "1" ] ; then
+	touch ~/.bash_profile
+else
 	echo ".bash_profile does not exist in home directory.\n\nFirst, either create manually or by running ServiceNow homebrew setup\n\nSee REAMDME.md"
 	exit 1
 fi
 
+linkInHomeDir() {
+	local FILETOLINK=$1
+	local TYPE=$2
+	if [ -e ~/${FILETOLINK} ] ; then
+		echo "${FILETOLINK} ${TYPE} already exists in home directory."
+		if [ "$FORCE" == "1" ] ; then
+			echo "Overwriting existing ${TYPE}, setting up fresh link"
+			rm -f ~/${FILETOLINK}
+			ln -s ${SOURCEDIR}/${FILETOLINK} ~/${FILETOLINK}
+		else
+			echo "Skipping link setup"
+		fi
+	else
+		echo "Setting up ${TYPE} link for ${FILETOLINK} in home directory"
+		ln -s ${SOURCEDIR}/${FILETOLINK} ~/${FILETOLINK}
+	fi
+}
+			
 # PS1 (command prompt settings)
-if [ -e ~/.ps1 ] ; then
-	echo ".ps1 file already exists in home directory.  Not overwriting."
-else
-	ln -s ./.ps1 ~/.ps1
-fi
+linkInHomeDir ".ps1" "file"
 
 # Vim settings
-if [ -e ~/.vimrc ] ; then
-	echo ".vimrc file already exists in home directory.  Not overwriting."
-else
-	ln -s ./.vimrc ~/.vimrc
-fi
+linkInHomeDir ".vimrc" "file"
 
 # Alias plugin directory
-if [ -e ~/alias ] ; then
-	echo "file or dir 'alias' already exists in home directory.  Skipping step: add alias plugin dir symlink"
-else
-	ln -s ./alias ~/alias
-fi
+linkInHomeDir "alias" "directory"
 
 # Environ plugin directory
-if [ -e ~/env ] ; then
-        echo "file or dir 'env' already exists in home directory.  Skipping step: add env plugin dir symlink"
-else
-        ln -s ./env ~/env
-fi
+linkInHomeDir "env" "directory"
 
 # Append Bash Profile with source commands for above plugin sets
-if [ -e ~/.bash_profile_ext ] ; then
-	echo ".bash_profile_ext file already exists in home directory.  Skipping step: source extension file from .bash_profile"
-else
-	ln -s ./bash_profile_ext >> ~/.bash_profile_ext
+linkInHomeDir ".bash_profile_ext" "file"
+BPEXTSRC=$(readlink ~/.bash_profile_ext)
+if [[ "$BPEXTSRC" == "${SOURCEDIR}/.bash_profile_ext" ]] ; then
+	echo "Sourcing .bash_profile_ext from ~/.bash_profile"
 	echo "\n# Mac Dev Command Line Setup and Environment Overrides" >> ~/.bash_profile
 	echo "source ~/.bash_profile_ext" >> ~/.bash_profile
+else
+	echo ".bash_profile_ext not the same as file shipped with this setup.  Skipping add as source to ~/.bash_profile"
 fi
