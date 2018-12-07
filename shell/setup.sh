@@ -18,11 +18,11 @@ fi
 linkInHomeDir() {
 	local FILETOLINK=$1
 	local TYPE=$2
-	if [ -e ~/${FILETOLINK} ] ; then
+	if [ -e ~/${FILETOLINK} ] || [ -L ~/${FILETOLINK} ] ; then
 		echo "${FILETOLINK} ${TYPE} already exists in home directory."
 		if [ "$FORCE" == "1" ] ; then
 			echo "Overwriting existing ${TYPE}, setting up fresh link"
-			rm -f ~/${FILETOLINK}
+			rm -rf ~/${FILETOLINK}
 			ln -s ${SOURCEDIR}/${FILETOLINK} ~/${FILETOLINK}
 		else
 			echo "Skipping link setup"
@@ -47,11 +47,13 @@ linkInHomeDir "env" "directory"
 
 # Append Bash Profile with source commands for above plugin sets
 linkInHomeDir ".bash_profile_ext" "file"
-BPEXTSRC=$(readlink ~/.bash_profile_ext)
-if [[ "$BPEXTSRC" == "${SOURCEDIR}/.bash_profile_ext" ]] ; then
+BPEXTSPATH=$(readlink ~/.bash_profile_ext)
+EXTSRCCMD="source ~/.bash_profile_ext"
+LINKCOUNT=$(grep -c -e "^${EXTSRCCMD}" ~/.bash_profile)
+if [[ "$BPEXTPATH" == "${SOURCEDIR}/.bash_profile_ext" ]] && [[ "$LINKCOUNT" == "0" ]]; then
 	echo "Sourcing .bash_profile_ext from ~/.bash_profile"
 	echo "\n# Mac Dev Command Line Setup and Environment Overrides" >> ~/.bash_profile
-	echo "source ~/.bash_profile_ext" >> ~/.bash_profile
+	echo "${EXTSRCCMD}" >> ~/.bash_profile
 else
-	echo ".bash_profile_ext not the same as file shipped with this setup.  Skipping add as source to ~/.bash_profile"
+	echo ".bash_profile_ext not the same as file shipped with this setup (or already sourced).  Skipping add as source to ~/.bash_profile"
 fi
