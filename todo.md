@@ -30,3 +30,11 @@ TextWrangler
 * cmd + bracket for moving through file list (not last edited)
 * shift + backspace just backspaces (doesn't reverse backspace)
 
+IntelliJ
+--------
+
+* (Per project) Project Explorer on right
+* Disable code collapsing
+* Editor appearance
+  - font size
+  - low contrast (grey backdrop, lower saturation syntax colors)
