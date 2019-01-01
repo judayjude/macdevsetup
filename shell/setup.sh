@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SOURCEDIR=$(dirname $0)
+SOURCEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 FORCE=0
 
 if [[ "$1" == "-f" ]] ; then
