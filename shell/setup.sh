@@ -47,12 +47,12 @@ linkInHomeDir "env" "directory"
 
 # Append Bash Profile with source commands for above plugin sets
 linkInHomeDir ".bash_profile_ext" "file"
-BPEXTSPATH=$(readlink ~/.bash_profile_ext)
+BPEXTPATH=$(readlink ~/.bash_profile_ext)
 EXTSRCCMD="source ~/.bash_profile_ext"
 LINKCOUNT=$(grep -c -e "^${EXTSRCCMD}" ~/.bash_profile)
 if [[ "$BPEXTPATH" == "${SOURCEDIR}/.bash_profile_ext" ]] && [[ "$LINKCOUNT" == "0" ]]; then
 	echo "Sourcing .bash_profile_ext from ~/.bash_profile"
-	echo "\n# Mac Dev Command Line Setup and Environment Overrides" >> ~/.bash_profile
+	echo -e "\n# Mac Dev Command Line Setup and Environment Overrides" >> ~/.bash_profile
 	echo "${EXTSRCCMD}" >> ~/.bash_profile
 else
 	echo ".bash_profile_ext not the same as file shipped with this setup (or already sourced).  Skipping add as source to ~/.bash_profile"
