@@ -60,3 +60,24 @@ To have launchd start now/devtools/mysql56 now and restart at login:
 Or, if you don't want/need a background service you can just run:
   /usr/local/opt/mysql56/bin/mysql.server start
 ```
+
+Glide Dev Env Setup
+===================
+
+Some files and configurations that need to be copied over to a new environment, every time, that ideally I could automate.  These are particular to getting Glide to run smoothly on a new laptop
+
+IntelliJ
+--------
+
+* bootstrap.properties
+* compiler, taking plugin `target` directories and putting them into bootstrap.properties property assignments
+* glide propeties override file, with standard settings (port, db name, logging prefs, etc.)
+* maint user xml file
+* IntelliJ-specific workspace settings xml files (for panel arrangement, etc.)
+* code style guidelines file
+
+Git
+---
+
+* global ignores (e.g. .iml, bootstrap.properties, aaa_jude...)
+* TIG
