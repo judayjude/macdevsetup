@@ -1,2 +1,3 @@
 alias tigfl='git fetch origin $(git symbolic-ref --short -q HEAD) ; tig HEAD FETCH_HEAD'
 alias gitf='git fetch origin $(git symbolic-ref --short -q HEAD) ; git'
+alias gitall='~/dev/macdevsetup/git/gitall.sh'
