@@ -1,0 +1,3 @@
+alias backup-db='~/dev/sh/dbvault/backup.sh'
+alias restore-db='~/dev/sh/dbvault/restore.sh'
+alias clone-db='~/dev/sh/dbvault/clone.sh'
