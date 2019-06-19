@@ -27,7 +27,12 @@ App-Specific Settings
 TextWrangler
 ------------
 
+http://www.barebones.com/support/textwrangler/ExpertPreferences.html
+
 * cmd + bracket for moving through file list (not last edited)
+ 1. Change short cut for "View > Next/Previous Document" from cmd+alt+bracket to cmd+shift+bracket
+ 2. terminal: `defaults write com.barebones.textwrangler SurfNextPreviousInDisplayOrder -bool YES`
+ 3. Change short cut for "Go > Go to Next/Previous" to cmd+bracket (replacing indent shortcuts)
 * shift + backspace just backspaces (doesn't reverse backspace)
 
 IntelliJ
